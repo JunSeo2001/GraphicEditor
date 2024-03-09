@@ -12,10 +12,17 @@ public class GToolBar extends JToolBar {
     public GToolBar(){
         this.setLayout(new FlowLayout());
 
-        JButton rectangleButton = new JButton("Rectangle");
-        JButton ovalButton = new JButton("Oval");
-        JButton lineButton = new JButton("Line");
-        JButton polygonButton = new JButton("Polygon");
+        ButtonGroup shapeButtonGroup = new ButtonGroup();
+
+        JRadioButton rectangleButton = new JRadioButton("Rectangle");
+        JRadioButton ovalButton = new JRadioButton("Oval");
+        JRadioButton lineButton = new JRadioButton("Line");
+        JRadioButton polygonButton = new JRadioButton("Polygon");
+
+        shapeButtonGroup.add(rectangleButton);
+        shapeButtonGroup.add(ovalButton);
+        shapeButtonGroup.add(lineButton);
+        shapeButtonGroup.add(polygonButton);
 
         rectangleButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -45,5 +52,7 @@ public class GToolBar extends JToolBar {
         this.add(ovalButton);
         this.add(lineButton);
         this.add(polygonButton);
+
+
     }
 }
