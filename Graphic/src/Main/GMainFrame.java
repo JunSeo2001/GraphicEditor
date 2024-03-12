@@ -7,23 +7,33 @@ public class GMainFrame extends JFrame {
     private static final long serialVersionUID = 1L;
 
     private GMenuBar menuBar;
-    private GToolBar toolBar;
+    private GShapeToolBar shapeToolBar;
     private GDrawingPanel drawingPanel;
+
 //    private GToolBar toolBar;
 
     public GMainFrame(){
         this.setSize(400,600);
-        this.menuBar = new GMenuBar();
-        this.toolBar = new GToolBar();
-        this.drawingPanel = new GDrawingPanel();
-//        this.toolBar = new GToolBar();
 
+//        LayoutManager layoutManager = new FlowLayout();
+//        LayoutManager layoutManager = new CardLayout();
+        LayoutManager layoutManager = new BorderLayout();
+
+        // 배치 매니저
+//        BoxLayout layoutManager = new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS);
+        this.setLayout(layoutManager);
+
+
+        this.menuBar = new GMenuBar();
         this.setJMenuBar(this.menuBar);
-        this.add(toolBar, BorderLayout.NORTH);
+
+        this.shapeToolBar = new GShapeToolBar();
+        this.add(shapeToolBar, BorderLayout.NORTH);
+
+        this.drawingPanel = new GDrawingPanel();
         this.add(drawingPanel,BorderLayout.CENTER);
-    }
-    public GDrawingPanel getDrawingPanel() {
-        return drawingPanel;
+
+        shapeToolBar.setDrawingPanel(drawingPanel);
     }
 
 
