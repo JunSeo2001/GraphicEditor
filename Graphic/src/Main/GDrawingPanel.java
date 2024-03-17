@@ -2,70 +2,54 @@ package Main;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
+import java.awt.event.*;
 import java.util.ArrayList; // 수정된 부분
 import java.util.List;
 
 public class GDrawingPanel extends JPanel {
     private static final long serialVersionUID = 1L;
-
     private String selectedShape = null;
+    private GShape selectedShapeObject = null;
+    private int startX, startY, endX, endY;
+    private List<Point> polygonPoints = new ArrayList<>();
 
-    private int startX, startY, currentX, currentY;
-    private int[] xPoints, yPoints;
-    private int numPoints;
 
-    public GDrawingPanel() {
-//        this.setBackground(Color.GRAY);
-//        this.selectedShape = null; // 초기화 추가
-        this.addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent e) {
-                startX = e.getX();
-                startY = e.getY();
-                if (selectedShape != null && selectedShape.equals("Polygon")) {
-                    xPoints = new int[100];
-                    yPoints = new int[100];
-                    numPoints = 0;
-                    xPoints[numPoints] = startX;
-                    yPoints[numPoints] = startY;
-                    numPoints++;
-                }
-            }
-        });
-
-        this.addMouseMotionListener(new MouseMotionAdapter() {
-            public void mouseDragged(MouseEvent e) {
-                currentX = e.getX();
-                currentY = e.getY();
-                repaint();
-            }
-        });
+    public GDrawingPanel(){
+        this.setBackground(Color.gray);
+        MouseEventHandler mouseEventHandler = new MouseEventHandler();
+        this.addMouseListener(mouseEventHandler);
+        this.addMouseMotionListener(mouseEventHandler);
     }
 
-    protected void paintComponent(Graphics g){
-        super.paintComponent(g);
+    public void paint(Graphics graphics){
+
+    }
+    private void draw(int x, int y, int x2, int y2){
+        Graphics graphics = this.getGraphics();
+        Graphics2D g2d = (Graphics2D) graphics;
 
         if (selectedShape != null) {
-            switch (selectedShape) {
+            switch (selectedShape){
                 case "Rectangle":
-                    int width = currentX - startX;
-                    int height = currentY - startY;
-                    g.drawRect(startX, startY, width, height);
+                    graphics.drawRect(x, y, x2 - x, y2 - y);
                     break;
                 case "Oval":
-                    width = currentX - startX;
-                    height = currentY - startY;
-                    g.drawOval(startX, startY, width, height);
+                    graphics.drawOval(x, y, x2 - x, y2 - y);
                     break;
                 case "Line":
-                    g.drawLine(startX, startY, currentX, currentY);
+                    graphics.drawLine(x, y, x2, y2);
                     break;
                 case "Polygon":
-                    if (numPoints > 0) {
-                        g.drawPolygon(xPoints, yPoints, numPoints);
+                    // 다각형 그리기
+                    int[] xPoints = new int[polygonPoints.size()];
+                    int[] yPoints = new int[polygonPoints.size()];
+                    for (int i = 0; i < polygonPoints.size(); i++) {
+                        Point point = polygonPoints.get(i);
+                        xPoints[i] = (int) point.getX();
+                        yPoints[i] = (int) point.getY();
                     }
+                    int nPoints = polygonPoints.size();
+                    g2d.drawPolygon(xPoints, yPoints, nPoints);
                     break;
                 default:
                     break;
@@ -73,10 +57,62 @@ public class GDrawingPanel extends JPanel {
         }
     }
 
-    public void setSelectedShape(String shape){
+    public void setSelectedShape(String shape) {
         this.selectedShape = shape;
-        System.out.println(shape);
-        repaint();
+    }
+
+
+        private class MouseEventHandler implements MouseListener, MouseMotionListener {
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            printMethodName();
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            printMethodName();
+            startX = e.getX();
+            startY = e.getY();
+
+            if ("Polygon".equals(selectedShape)) {
+                polygonPoints.add(new Point(startX, startY));
+            }
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            printMethodName();
+            endX = e.getX();
+            endY = e.getY();
+            draw(startX,startY,endX,endY);
+        }
+        @Override
+        public void mouseDragged(MouseEvent e) {
+            printMethodName();
+
+
+        }
+
+        @Override
+        public void mouseMoved(MouseEvent e) {
+            printMethodName();
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+        }
+        private void printMethodName() {
+            StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+            if (stackTrace.length > 2) {
+                String methodName = stackTrace[2].getMethodName();
+                System.out.println(methodName);
+            }
+        }
     }
 }
 
