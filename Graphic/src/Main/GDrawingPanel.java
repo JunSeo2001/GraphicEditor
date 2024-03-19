@@ -3,15 +3,17 @@ package Main;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList; // 수정된 부분
+import java.util.ArrayList;
 import java.util.List;
 
 public class GDrawingPanel extends JPanel {
     private static final long serialVersionUID = 1L;
     private String selectedShape = null;
-    private GShape selectedShapeObject = null;
+    private GRectangleTool gRectangleTool = null;
+    private GOvalTool gOvalTool = null;
     private int startX, startY, endX, endY;
     private List<Point> polygonPoints = new ArrayList<>();
+    private String shapetext;
 
 
     public GDrawingPanel(){
@@ -21,43 +23,40 @@ public class GDrawingPanel extends JPanel {
         this.addMouseMotionListener(mouseEventHandler);
     }
 
+    public void setShapeText(String shapeText){
+        this.shapetext = shapeText;
+        System.out.println(shapeText);
+
+
+    }
+
     public void paint(Graphics graphics){
+        super.paint(graphics);
+
+        if (gRectangleTool != null) {
+            gRectangleTool.draw(graphics);
+        }
+        if (gOvalTool != null) {
+            gOvalTool.draw(graphics);
+        }
 
     }
     private void draw(int x, int y, int x2, int y2){
-        Graphics graphics = this.getGraphics();
-        Graphics2D g2d = (Graphics2D) graphics;
-
-        if (selectedShape != null) {
-            switch (selectedShape){
-                case "Rectangle":
-                    graphics.drawRect(x, y, x2 - x, y2 - y);
-                    break;
-                case "Oval":
-                    graphics.drawOval(x, y, x2 - x, y2 - y);
-                    break;
-                case "Line":
-                    graphics.drawLine(x, y, x2, y2);
-                    break;
-                case "Polygon":
-                    // 다각형 그리기
-                    int[] xPoints = new int[polygonPoints.size()];
-                    int[] yPoints = new int[polygonPoints.size()];
-                    for (int i = 0; i < polygonPoints.size(); i++) {
-                        Point point = polygonPoints.get(i);
-                        xPoints[i] = (int) point.getX();
-                        yPoints[i] = (int) point.getY();
-                    }
-                    int nPoints = polygonPoints.size();
-                    g2d.drawPolygon(xPoints, yPoints, nPoints);
-                    break;
-                default:
-                    break;
-            }
+        switch (shapetext) {
+            case "Rectangle":
+                gRectangleTool = new GRectangleTool(x, y, x2 - x, y2 - y);
+                break;
+            case "Oval":
+                gOvalTool = new GOvalTool(x, y, x2 - x, y2 - y);
+                break;
+            default:
+                break;
         }
+        repaint();
     }
 
     public void setSelectedShape(String shape) {
+
         this.selectedShape = shape;
     }
 
@@ -66,12 +65,10 @@ public class GDrawingPanel extends JPanel {
 
         @Override
         public void mouseClicked(MouseEvent e) {
-            printMethodName();
         }
 
         @Override
         public void mousePressed(MouseEvent e) {
-            printMethodName();
             startX = e.getX();
             startY = e.getY();
 
@@ -82,21 +79,18 @@ public class GDrawingPanel extends JPanel {
 
         @Override
         public void mouseReleased(MouseEvent e) {
-            printMethodName();
             endX = e.getX();
             endY = e.getY();
             draw(startX,startY,endX,endY);
         }
         @Override
         public void mouseDragged(MouseEvent e) {
-            printMethodName();
 
 
         }
 
         @Override
         public void mouseMoved(MouseEvent e) {
-            printMethodName();
         }
 
         @Override
@@ -106,13 +100,13 @@ public class GDrawingPanel extends JPanel {
         @Override
         public void mouseExited(MouseEvent e) {
         }
-        private void printMethodName() {
-            StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-            if (stackTrace.length > 2) {
-                String methodName = stackTrace[2].getMethodName();
-                System.out.println(methodName);
-            }
-        }
+//        private void printMethodName() {
+//            StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+//            if (stackTrace.length > 2) {
+//                String methodName = stackTrace[2].getMethodName();
+//                System.out.println(methodName);
+//            }
+//        }
     }
 }
 

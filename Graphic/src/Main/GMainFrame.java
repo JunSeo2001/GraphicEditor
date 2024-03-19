@@ -2,6 +2,8 @@ package Main;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class GMainFrame extends JFrame {
     private static final long serialVersionUID = 1L;
@@ -14,26 +16,30 @@ public class GMainFrame extends JFrame {
 
     public GMainFrame(){
         this.setSize(400,600);
-
-//        LayoutManager layoutManager = new FlowLayout();
-//        LayoutManager layoutManager = new CardLayout();
         LayoutManager layoutManager = new BorderLayout();
 
-        // 배치 매니저
-//        BoxLayout layoutManager = new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS);
         this.setLayout(layoutManager);
 
 
         this.menuBar = new GMenuBar();
         this.setJMenuBar(this.menuBar);
 
-        this.shapeToolBar = new GShapeToolBar();
+        ShapeActionHandler shapeActionHandler = new ShapeActionHandler();
+        this.shapeToolBar = new GShapeToolBar(shapeActionHandler);
         this.add(shapeToolBar, BorderLayout.NORTH);
+
 
         this.drawingPanel = new GDrawingPanel();
         this.add(drawingPanel,BorderLayout.CENTER);
 
-        shapeToolBar.setDrawingPanel(drawingPanel);
+//        shapeToolBar.setDrawingPanel(drawingPanel);
+    }
+
+    public class ShapeActionHandler implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            drawingPanel.setShapeText(((JRadioButton)e.getSource()).getText());
+        }
     }
 
 

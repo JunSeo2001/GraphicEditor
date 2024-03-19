@@ -9,19 +9,40 @@ import java.awt.event.ActionEvent;
 public class GShapeToolBar extends JToolBar {
     private static final long serialVersionUID = 1L;
     private GDrawingPanel drawingPanel;
+    private JRadioButton rectangleButton;
+    private JRadioButton ovalButton;
+    private JRadioButton lineButton;
+    private JRadioButton polygonButton;
 
-    public GShapeToolBar() {
+    public enum EShapeButtons{
+        eRectangle,
+        eOval,
+        eLine,
+        ePolygon
+    }
+
+    public GShapeToolBar(GMainFrame.ShapeActionHandler shapeActionHandler) {
         this.setLayout(new FlowLayout());
-
-        JRadioButton rectangleButton = new JRadioButton("Rectangle");
-        JRadioButton ovalButton = new JRadioButton("Oval");
-        JRadioButton lineButton = new JRadioButton("Line");
-        JRadioButton polygonButton = new JRadioButton("Polygon");
-
         ButtonGroup shapeButtonGroup = new ButtonGroup();
+
+        this.rectangleButton = new JRadioButton("Rectangle");
+        this.rectangleButton.addActionListener(shapeActionHandler);
+        this.add(rectangleButton);
         shapeButtonGroup.add(rectangleButton);
+
+        this.ovalButton = new JRadioButton("Oval");
+        this.ovalButton.addActionListener(shapeActionHandler);
+        this.add(ovalButton);
         shapeButtonGroup.add(ovalButton);
+
+        this.lineButton = new JRadioButton("Line");
+        this.lineButton.addActionListener(shapeActionHandler);
+        this.add(lineButton);
         shapeButtonGroup.add(lineButton);
+
+        this.polygonButton = new JRadioButton("Polygon");
+        this.polygonButton.addActionListener(shapeActionHandler);
+        this.add(polygonButton);
         shapeButtonGroup.add(polygonButton);
 
         rectangleButton.addActionListener(new ActionListener() {
@@ -55,13 +76,9 @@ public class GShapeToolBar extends JToolBar {
                 }
             }
         });
-
-        this.add(rectangleButton);
-        this.add(ovalButton);
-        this.add(lineButton);
-        this.add(polygonButton);
     }
     public void setDrawingPanel(GDrawingPanel drawingPanel) {
+
         this.drawingPanel = drawingPanel;
     }
 }
