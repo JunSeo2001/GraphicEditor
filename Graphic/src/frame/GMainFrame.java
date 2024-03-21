@@ -1,9 +1,12 @@
-package Main;
+package frame;
+
+import global.Constants.EShapeButtons;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 
 public class GMainFrame extends JFrame {
     private static final long serialVersionUID = 1L;
@@ -38,9 +41,9 @@ public class GMainFrame extends JFrame {
     public class ShapeActionHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            drawingPanel.setShapeText(((JRadioButton)e.getSource()).getText());
+            EShapeButtons eShapeButtons = EShapeButtons.valueOf(e.getActionCommand());
+            drawingPanel.setShapeTool(eShapeButtons.getShapeTool());
         }
     }
-
 
 }

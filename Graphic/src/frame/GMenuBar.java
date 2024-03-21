@@ -1,4 +1,7 @@
-package Main;
+package frame;
+
+import menus.GEditMenu;
+import menus.GFileMenu;
 
 import javax.swing.*;
 

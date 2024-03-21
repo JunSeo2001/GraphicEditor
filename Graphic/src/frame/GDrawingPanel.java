@@ -1,19 +1,21 @@
-package Main;
+package frame;
+
+import shapeTools.GShapeTool;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GDrawingPanel extends JPanel {
     private static final long serialVersionUID = 1L;
     private String selectedShape = null;
-    private GRectangleTool gRectangleTool = null;
-    private GOvalTool gOvalTool = null;
     private int startX, startY, endX, endY;
     private List<Point> polygonPoints = new ArrayList<>();
-    private String shapetext;
+    private GShapeTool shapeTool;
 
 
     public GDrawingPanel(){
@@ -23,36 +25,25 @@ public class GDrawingPanel extends JPanel {
         this.addMouseMotionListener(mouseEventHandler);
     }
 
-    public void setShapeText(String shapeText){
-        this.shapetext = shapeText;
-        System.out.println(shapeText);
-
-
+    public void setShapeTool(GShapeTool shapeTool){
+        this.shapeTool = shapeTool;
+        System.out.println(shapeTool); //로그 확인
     }
 
     public void paint(Graphics graphics){
         super.paint(graphics);
 
-        if (gRectangleTool != null) {
-            gRectangleTool.draw(graphics);
-        }
-        if (gOvalTool != null) {
-            gOvalTool.draw(graphics);
-        }
+//        if (gRectangleTool != null) {
+//            gRectangleTool.draw(graphics, x, y, x2 - x, y2 - y);
+//        }
+//        if (gOvalTool != null) {
+//            gOvalTool.draw(graphics, x, y, x2 - x, y2 - y);
+//        }
 
     }
     private void draw(int x, int y, int x2, int y2){
-        switch (shapetext) {
-            case "Rectangle":
-                gRectangleTool = new GRectangleTool(x, y, x2 - x, y2 - y);
-                break;
-            case "Oval":
-                gOvalTool = new GOvalTool(x, y, x2 - x, y2 - y);
-                break;
-            default:
-                break;
-        }
-        repaint();
+
+        this.shapeTool.draw(getGraphics(), x, y, x2-x, y2-y);
     }
 
     public void setSelectedShape(String shape) {
