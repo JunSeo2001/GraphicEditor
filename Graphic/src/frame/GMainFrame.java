@@ -19,10 +19,10 @@ public class GMainFrame extends JFrame {
 
     public GMainFrame(){
         this.setSize(400,600);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         LayoutManager layoutManager = new BorderLayout();
 
         this.setLayout(layoutManager);
-
 
         this.menuBar = new GMenuBar();
         this.setJMenuBar(this.menuBar);
@@ -35,8 +35,17 @@ public class GMainFrame extends JFrame {
         this.drawingPanel = new GDrawingPanel();
         this.add(drawingPanel,BorderLayout.CENTER);
 
-//        shapeToolBar.setDrawingPanel(drawingPanel);
+//        addWindowListener(new WindowAdapter() {
+//            @Override
+//            public void windowClosing(WindowEvent e) {
+//                drawingPanel.paint(getGraphics());
+//            }
+//        });
+
+
+
     }
+
 
     public class ShapeActionHandler implements ActionListener {
         @Override

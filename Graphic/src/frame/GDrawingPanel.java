@@ -1,6 +1,8 @@
 package frame;
 
-import shapeTools.GShapeTool;
+import shapeTools.GOval;
+import shapeTools.GRectangle;
+import shapeTools.GShape;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,51 +10,55 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
-import java.util.List;
 
 public class GDrawingPanel extends JPanel {
     private static final long serialVersionUID = 1L;
     private String selectedShape = null;
-    private int startX, startY, endX, endY;
-    private List<Point> polygonPoints = new ArrayList<>();
-    private GShapeTool shapeTool;
+    private GShape shapeTool;
+
+    private ArrayList<GShape> shapes; // 그려진 도형 저장
+
 
 
     public GDrawingPanel(){
         this.setBackground(Color.gray);
+        this.shapes = new ArrayList<>(); // 리스트 초기화
         MouseEventHandler mouseEventHandler = new MouseEventHandler();
         this.addMouseListener(mouseEventHandler);
         this.addMouseMotionListener(mouseEventHandler);
     }
 
-    public void setShapeTool(GShapeTool shapeTool){
+    public void setShapeTool(GShape shapeTool){
         this.shapeTool = shapeTool;
         System.out.println(shapeTool); //로그 확인
     }
+    @Override
+    public void paint(Graphics g)
+    {
+        super.paint(g);
 
-    public void paint(Graphics graphics){
-        super.paint(graphics);
-
-//        if (gRectangleTool != null) {
-//            gRectangleTool.draw(graphics, x, y, x2 - x, y2 - y);
-//        }
-//        if (gOvalTool != null) {
-//            gOvalTool.draw(graphics, x, y, x2 - x, y2 - y);
-//        }
-
+        if(shapes != null)
+        {
+            for(GShape shape : shapes)
+                shape.redraw(getComponentGraphics(g));
+        }
     }
-    private void draw(int x, int y, int x2, int y2){
 
-        this.shapeTool.draw(getGraphics(), x, y, x2-x, y2-y);
+    private void draw(Graphics graphics){
+        this.shapeTool.draw(getGraphics());
     }
 
     public void setSelectedShape(String shape) {
-
         this.selectedShape = shape;
     }
 
+    public void addShape(GShape shape) {
+        shapes.add(shape);
+        System.out.println(shapes);
+    }
 
-        private class MouseEventHandler implements MouseListener, MouseMotionListener {
+
+    private class MouseEventHandler implements MouseListener, MouseMotionListener {
 
         @Override
         public void mouseClicked(MouseEvent e) {
@@ -60,24 +66,25 @@ public class GDrawingPanel extends JPanel {
 
         @Override
         public void mousePressed(MouseEvent e) {
-            startX = e.getX();
-            startY = e.getY();
-
-            if ("Polygon".equals(selectedShape)) {
-                polygonPoints.add(new Point(startX, startY));
+            if (shapeTool instanceof GRectangle) {
+                shapeTool = new GRectangle();
+            } else if (shapeTool instanceof GOval) {
+                shapeTool = new GOval();
             }
+
+
+            shapeTool.setP1(e.getX(), e.getY());
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
-            endX = e.getX();
-            endY = e.getY();
-            draw(startX,startY,endX,endY);
+//            GShape clonedShape = shapeTool.clone();
+            shapes.add(shapeTool);
         }
         @Override
         public void mouseDragged(MouseEvent e) {
-
-
+            shapeTool.setP2(e.getX(), e.getY());
+            shapeTool.draw(getGraphics());
         }
 
         @Override
