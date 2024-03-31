@@ -1,16 +1,14 @@
 package global;
 
-import shapeTools.GOval;
-import shapeTools.GRectangle;
-import shapeTools.GShape;
+import shapeTools.*;
 
 
 public class Constants {
     public enum EShapeButtons{
         eRectangle("Rectangle", new GRectangle()),
         eOval("Oval", new GOval()),
-        eLine("Line", new GRectangle()),
-        ePolygon("Polygon", new GRectangle());
+        eLine("Line", new GLine()),
+        ePolygon("Polygon", new GPolygon());
 
         private String text;
         private GShape shapeTool;

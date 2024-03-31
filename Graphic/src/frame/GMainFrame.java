@@ -34,16 +34,6 @@ public class GMainFrame extends JFrame {
 
         this.drawingPanel = new GDrawingPanel();
         this.add(drawingPanel,BorderLayout.CENTER);
-
-//        addWindowListener(new WindowAdapter() {
-//            @Override
-//            public void windowClosing(WindowEvent e) {
-//                drawingPanel.paint(getGraphics());
-//            }
-//        });
-
-
-
     }
 
 
@@ -52,6 +42,7 @@ public class GMainFrame extends JFrame {
         public void actionPerformed(ActionEvent e) {
             EShapeButtons eShapeButtons = EShapeButtons.valueOf(e.getActionCommand());
             drawingPanel.setShapeTool(eShapeButtons.getShapeTool());
+            drawingPanel.textShapeTool(eShapeButtons.getText());
         }
     }
 

@@ -1,9 +1,10 @@
 package shapeTools;
 
 import java.awt.*;
+import java.util.List;
 
 public abstract class GShape {
-    protected int x1, y1, x2, y2, ox2, oy2;
+    protected int x1, y1, x2, y2, ox2, oy2, p;
 
     public GShape(){
         this.x1 = 0;
@@ -19,6 +20,8 @@ public abstract class GShape {
         this.y1 = y1;
         this.x2 = x1;
         this.y2 = y1;
+        this.ox2 = x1;
+        this.oy2 = y1;
     }
 
     public void setP2(int x2, int y2){
@@ -28,6 +31,11 @@ public abstract class GShape {
         this.y2 = y2;
     }
 
+
     public abstract void draw(Graphics graphics);
     public abstract void redraw(Graphics graphics);
+    public abstract GShape clone();
+    public void setPoints(List<Point> points) {
+
+    }
 }
