@@ -3,6 +3,10 @@ package shapeTools;
 import java.awt.*;
 
 public class GRectangle extends GShape {
+
+    public GRectangle() {
+        super(EDrawingStyly.e2PStyle);
+    }
     @Override
     public void draw(Graphics graphics) {
         Graphics2D graphics2D = (Graphics2D) graphics;

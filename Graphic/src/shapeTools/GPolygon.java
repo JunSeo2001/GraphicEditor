@@ -8,6 +8,10 @@ public class GPolygon extends GShape {
 
     private List<Point> points = new ArrayList<>(); // 다각형의 꼭지점 좌표를 저장할 리스트
 
+    public GPolygon() {
+        super(EDrawingStyly.eNPStyle);
+    }
+
     @Override
     public void draw(Graphics graphics) {
         if (points.size() > 1) {
@@ -18,7 +22,7 @@ public class GPolygon extends GShape {
                 xPoints[i] = point.x;
                 yPoints[i] = point.y;
             }
-            graphics.drawPolygon(xPoints, yPoints, points.size());
+            graphics.drawPolyline(xPoints, yPoints, points.size());
         }
 
     }
@@ -33,7 +37,7 @@ public class GPolygon extends GShape {
                 xPoints[i] = point.x;
                 yPoints[i] = point.y;
             }
-            graphics.drawPolygon(xPoints, yPoints, points.size());
+            graphics.drawPolyline(xPoints, yPoints, points.size());
         }
     }
 

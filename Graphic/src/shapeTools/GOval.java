@@ -4,6 +4,10 @@ import java.awt.*;
 
 public class GOval extends GShape {
 
+    public GOval() {
+        super(EDrawingStyly.e2PStyle);
+    }
+
     @Override
     public void draw(Graphics graphics) {
         Graphics2D graphics2D = (Graphics2D) graphics;

@@ -42,7 +42,6 @@ public class GMainFrame extends JFrame {
         public void actionPerformed(ActionEvent e) {
             EShapeButtons eShapeButtons = EShapeButtons.valueOf(e.getActionCommand());
             drawingPanel.setShapeTool(eShapeButtons.getShapeTool());
-            drawingPanel.textShapeTool(eShapeButtons.getText());
         }
     }
 

@@ -3,7 +3,12 @@ package shapeTools;
 import java.awt.*;
 
 public class GLine extends GShape {
+
+    public GLine() {
+        super(EDrawingStyly.e2PStyle);
+    }
     @Override
+
     public void draw(Graphics graphics) {
         Graphics2D graphics2D = (Graphics2D) graphics;
         graphics2D.setXORMode(graphics2D.getBackground());
@@ -12,6 +17,7 @@ public class GLine extends GShape {
         //draw new shape
         graphics2D.drawLine(x1, y1, x2, y2);
     }
+
     @Override
     public void redraw(Graphics graphics) {
         graphics.drawLine(x1, y1, x2, y2);

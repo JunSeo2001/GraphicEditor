@@ -4,9 +4,21 @@ import java.awt.*;
 import java.util.List;
 
 public abstract class GShape {
+    public enum EDrawingStyly {
+        e2PStyle,
+        eNPStyle
+    }
+    private EDrawingStyly eDrawingStyle;
+
+    public EDrawingStyly getEDrawingStyle() {
+        return this.eDrawingStyle;
+    }
+
     protected int x1, y1, x2, y2, ox2, oy2, p;
 
-    public GShape(){
+
+    public GShape(EDrawingStyly eDrawingStyle){
+        this.eDrawingStyle = eDrawingStyle;
         this.x1 = 0;
         this.y1 = 0;
         this.x2 = 0;
