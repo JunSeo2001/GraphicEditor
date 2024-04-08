@@ -2,7 +2,7 @@ package shapeTools;
 
 import java.awt.*;
 
-public class GRectangle extends GShape {
+public class GRectangle extends G2PShapeTool {
 
     public GRectangle() {
         super(EDrawingStyly.e2PStyle);
@@ -19,7 +19,7 @@ public class GRectangle extends GShape {
         graphics.drawRect(x1, y1, x2 - x1, y2 - y1);
     }
 
-    public GShape clone() {
+    public GShapeTool clone() {
         return new GRectangle();
 
     }

@@ -11,18 +11,20 @@ public class Constants {
         ePolygon("Polygon", new GPolygon());
 
         private String text;
-        private GShape shapeTool;
+        private GShapeTool shapeTool;
 
-        EShapeButtons(String text, GShape shapeTool){
+        EShapeButtons(String text, GShapeTool shapeTool){
             this.text = text;
             this.shapeTool = shapeTool;
         }
         public String getText(){
             return this.text;
         }
-        public GShape getShapeTool(){
+        public GShapeTool getShapeTool(){
             return this.shapeTool;
         }
     }
+
+    public final static int NUM_POINTS = 20;
 
 }

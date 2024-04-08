@@ -2,7 +2,7 @@ package shapeTools;
 
 import java.awt.*;
 
-public class GOval extends GShape {
+public class GOval extends G2PShapeTool {
 
     public GOval() {
         super(EDrawingStyly.e2PStyle);
@@ -22,7 +22,7 @@ public class GOval extends GShape {
         graphics.drawOval(x1, y1, x2 - x1, y2 - y1);
     }
 
-    public GShape clone() {
+    public GShapeTool clone() {
         return new GOval();
     }
 }

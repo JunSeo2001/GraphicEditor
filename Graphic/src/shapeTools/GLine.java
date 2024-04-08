@@ -2,7 +2,7 @@ package shapeTools;
 
 import java.awt.*;
 
-public class GLine extends GShape {
+public class GLine extends G2PShapeTool {
 
     public GLine() {
         super(EDrawingStyly.e2PStyle);
@@ -23,7 +23,7 @@ public class GLine extends GShape {
         graphics.drawLine(x1, y1, x2, y2);
     }
 
-    public GShape clone() {
+    public GShapeTool clone() {
         return new GLine();
     }
 }
