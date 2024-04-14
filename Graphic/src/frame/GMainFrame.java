@@ -18,8 +18,11 @@ public class GMainFrame extends JFrame {
 //    private GToolBar toolBar;
 
     public GMainFrame(){
-        this.setSize(400,600);
+        // set attributes
+        this.setSize(700,800);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // create components
         LayoutManager layoutManager = new BorderLayout();
 
         this.setLayout(layoutManager);
@@ -34,6 +37,14 @@ public class GMainFrame extends JFrame {
 
         this.drawingPanel = new GDrawingPanel();
         this.add(drawingPanel,BorderLayout.CENTER);
+
+        this.initialize();
+    }
+
+    public void initialize() {
+        this.menuBar.initialize();
+        this.shapeToolBar.initialize();
+        this.drawingPanel.initialize();
     }
 
 

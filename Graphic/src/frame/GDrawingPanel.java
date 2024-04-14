@@ -15,6 +15,9 @@ public class GDrawingPanel extends JPanel {
     private GShapeTool currentShape;
     private Vector<GShapeTool> shapes;
 
+    public void initialize() {
+
+    }
 
 
     private enum EDrawingState {
@@ -89,16 +92,18 @@ public class GDrawingPanel extends JPanel {
                     startDrawing(e.getX(), e.getY());
                     eDrawingState = EDrawingState.eNPState;
                 }
-            } else if (e.getClickCount() == 2) {
-                stopDrawing(e.getX(), e.getY());
-                eDrawingState = EDrawingState.eIdle;
 
-            } else {
+            }else {
                 if (shapeTool.getEDrawingStyle() == GShapeTool.EDrawingStyly.e2PStyle) {
                     stopDrawing(e.getX(), e.getY());
                     eDrawingState = EDrawingState.eIdle;
                 } else if (shapeTool.getEDrawingStyle() == GShapeTool.EDrawingStyly.eNPStyle) {
-                    keepDrawing(e.getX(), e.getY());
+                    if (e.getClickCount() == 2) {
+                        stopDrawing(e.getX(), e.getY());
+                        eDrawingState = EDrawingState.eIdle;
+                    }else{
+                        keepDrawing(e.getX(), e.getY());
+                    }
                 }
             }
 
@@ -114,27 +119,27 @@ public class GDrawingPanel extends JPanel {
 
         @Override
         public void mousePressed(MouseEvent e) {
-            if (eDrawingState == EDrawingState.eIdle) {
-                if (shapeTool.getEDrawingStyle() == GShapeTool.EDrawingStyly.e2PStyle) {
-                    startDrawing(e.getX(), e.getY());
-                    eDrawingState = EDrawingState.e2PState;
-                }
-            }
+//            if (eDrawingState == EDrawingState.eIdle) {
+//                if (shapeTool.getEDrawingStyle() == GShapeTool.EDrawingStyly.e2PStyle) {
+//                    startDrawing(e.getX(), e.getY());
+//                    eDrawingState = EDrawingState.e2PState;
+//                }
+//            }
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
-            if (eDrawingState == EDrawingState.e2PState) {
-                stopDrawing(e.getX(), e.getY());
-                eDrawingState = EDrawingState.eIdle;
-            }
+//            if (eDrawingState == EDrawingState.e2PState) {
+//                stopDrawing(e.getX(), e.getY());
+//                eDrawingState = EDrawingState.eIdle;
+//            }
         }
 
         @Override
         public void mouseDragged(MouseEvent e) {
-            if (eDrawingState == EDrawingState.e2PState) {
-                keepDrawing(e.getX(), e.getY());
-            }
+//            if (eDrawingState == EDrawingState.e2PState) {
+//                keepDrawing(e.getX(), e.getY());
+//            }
         }
 
         @Override

@@ -20,4 +20,6 @@ public class GMenuBar extends JMenuBar {
 
     }
 
+    public void initialize() {
+    }
 }

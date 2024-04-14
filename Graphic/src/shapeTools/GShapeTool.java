@@ -3,7 +3,7 @@ package shapeTools;
 import java.awt.*;
 
 public abstract class GShapeTool {
-    public enum EDrawingStyly {
+    public enum EDrawingStyly{
         e2PStyle,
         eNPStyle
     }
