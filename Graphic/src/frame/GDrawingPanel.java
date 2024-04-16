@@ -2,23 +2,23 @@ package frame;
 
 import shapeTools.GShapeTool;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Vector;
 
 public class GDrawingPanel extends JPanel {
+    //attributes(GDrawingPanel 이 가지고 있는 속성)
     private static final long serialVersionUID = 1L;
     private GShapeTool shapeTool;
     private GShapeTool currentShape;
     private Vector<GShapeTool> shapes;
-
-    public void initialize() {
-
-    }
-
 
     private enum EDrawingState {
         eIdle,
@@ -27,6 +27,10 @@ public class GDrawingPanel extends JPanel {
     }
     private EDrawingState eDrawingState;
 
+
+
+
+    //constructors
     public GDrawingPanel() {
         this.setBackground(Color.gray);
 //        this.shapes = new ArrayList<>(); // 리스트 초기화
@@ -38,11 +42,32 @@ public class GDrawingPanel extends JPanel {
         this.addMouseMotionListener(mouseEventHandler);
     }
 
+    public void initialize() {
+
+    }
+
+    //setters and getters
     public void setShapeTool(GShapeTool shapeTool) {
         this.shapeTool = shapeTool;
         System.out.println(shapeTool); //로그 확인
     }
 
+
+    //method
+    public void save(File file) {
+        System.out.println("save");
+        BufferedImage image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
+        Graphics2D g = image.createGraphics();
+        paint(g); // 현재 패널에 그려진 그림을 이미지로 그림
+
+        try {
+            ImageIO.write(image, "PNG", file); // 이미지를 PNG 형식으로 파일에 저장
+            System.out.println("파일이 저장되었습니다: " + file.getAbsolutePath());
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("파일을 저장하는 도중 오류가 발생했습니다.");
+        }
+    }
 
     @Override
     public void paint(Graphics graphics) {
@@ -75,7 +100,8 @@ public class GDrawingPanel extends JPanel {
     }
 
     private void ContinueDrawing(int x, int y) {
-
+        currentShape.movePoint(x, y);
+        currentShape.draw(getGraphics());
     }
 
 
@@ -113,6 +139,8 @@ public class GDrawingPanel extends JPanel {
         public void mouseMoved(MouseEvent e) {
             if (eDrawingState == EDrawingState.e2PState) {
                 keepDrawing(e.getX(), e.getY());
+            } else if (eDrawingState == EDrawingState.eNPState) {
+                ContinueDrawing(e.getX(), e.getY());
             }
         }
 

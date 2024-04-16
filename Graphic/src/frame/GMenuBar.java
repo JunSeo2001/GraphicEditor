@@ -12,14 +12,21 @@ public class GMenuBar extends JMenuBar {
     public GEditMenu editMenu;
 
 
-    public GMenuBar(){
-        this.fileMenu = new GFileMenu("File");
-        this.editMenu = new GEditMenu("Edit");
+    public GMenuBar(GMainFrame.MenuActionHandler menuActionHandler){
+        this.fileMenu = new GFileMenu(menuActionHandler);
+        this.editMenu = new GEditMenu(menuActionHandler);
+
         this.add(this.fileMenu);
         this.add(this.editMenu);
 
+//        JMenuItem save = new JMenuItem("Save");
+//        JMenuItem open = new JMenuItem("Open");
+//        save.addActionListener(menuActionHandler);
+//        add(save);
+//        add(open);
     }
 
     public void initialize() {
+
     }
 }
