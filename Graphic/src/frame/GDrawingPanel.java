@@ -104,6 +104,10 @@ public class GDrawingPanel extends JPanel {
         currentShape.draw(getGraphics());
     }
 
+    public void move(int x, int y) {
+
+    }
+
 
     private class MouseEventHandler implements MouseListener, MouseMotionListener {
 
