@@ -48,6 +48,9 @@ public class GMainFrame extends JFrame {
         this.add(drawingPanel,BorderLayout.CENTER);
 
         this.initialize();
+
+        //associate
+        this.menuBar.associate(this.drawingPanel);
     }
 
     public void initialize() {
@@ -68,7 +71,7 @@ public class GMainFrame extends JFrame {
 
     public class MenuActionHandler implements ActionListener {
         @Override
-        public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(ActionEvent e){
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setDialogTitle("Save As");
 

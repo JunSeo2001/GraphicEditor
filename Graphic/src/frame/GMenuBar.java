@@ -11,6 +11,7 @@ public class GMenuBar extends JMenuBar {
     public GFileMenu fileMenu;
     public GEditMenu editMenu;
 
+    private GDrawingPanel drawingPanel;
 
     public GMenuBar(GMainFrame.MenuActionHandler menuActionHandler){
 //        this.fileMenu = new GFileMenu(menuActionHandler);
@@ -24,6 +25,11 @@ public class GMenuBar extends JMenuBar {
         save.addActionListener(menuActionHandler);
         add(save);
         add(open);
+    }
+
+    public void associate() {
+        this.drawingPanel = drawingPanel;
+        this.fileMenu.assoicate(drawingPanel);
     }
 
     public void initialize() {

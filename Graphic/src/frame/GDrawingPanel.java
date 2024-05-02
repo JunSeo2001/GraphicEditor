@@ -9,8 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.Vector;
 
 public class GDrawingPanel extends JPanel {
@@ -67,7 +66,21 @@ public class GDrawingPanel extends JPanel {
             e.printStackTrace();
             System.out.println("파일을 저장하는 도중 오류가 발생했습니다.");
         }
+
+
     }
+
+    void save2() {
+        try {
+            File file = new File("output");
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(file)));
+            objectOutputStream.writeObject(this.shapes);
+            objectOutputStream.close();
+        } catch (IOException) {
+            e.printStackTrace();
+        }
+    }
+
 
     @Override
     public void paint(Graphics graphics) {
@@ -91,6 +104,7 @@ public class GDrawingPanel extends JPanel {
         if (shapeTool.getEDrawingStyle() == GShapeTool.EDrawingStyly.e2PStyle) {
             currentShape.addPoint(x, y);
             shapes.add(currentShape);
+            
         } else if (shapeTool.getEDrawingStyle() == GShapeTool.EDrawingStyly.eNPStyle) {
             currentShape.addPoint(x, y);
             shapes.add(currentShape);
@@ -136,7 +150,6 @@ public class GDrawingPanel extends JPanel {
                     }
                 }
             }
-
         }
 
         @Override

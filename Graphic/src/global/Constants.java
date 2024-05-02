@@ -3,7 +3,7 @@ package global;
 import shapeTools.*;
 
 
-public class Constants {
+public class Constants{
     public enum EShapeButtons{
         eRectangle("Rectangle", new GRectangle()),
         eOval("Oval", new GOval()),

@@ -1,8 +1,9 @@
 package shapeTools;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public abstract class GShapeTool {
+public abstract class GShapeTool implements Serializable {
     public enum EDrawingStyly{
         e2PStyle,
         eNPStyle
