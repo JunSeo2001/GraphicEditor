@@ -1,7 +1,6 @@
 package menus;
 
 import frame.GDrawingPanel;
-import frame.GMainFrame;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -12,23 +11,23 @@ public class GFileMenu extends JMenu {
 
     private GDrawingPanel drawingPanel;
 
-    public void assoicate(GDrawingPanel drawingPanel) {
-        this.drwingPanel = draingPanel;
+    public void associate(GDrawingPanel drawingPanel) {
+        this.drawingPanel = drawingPanel;
     }
+
     public GFileMenu(String s){
         super(s);
         ActionHandler actionHandler = new ActionHandler();
 
-        JMenuItem save = new JMenuItem("Save");
-        save.setActionCommand("Save");
-        save.addActionListener(actionHandler);
+        JMenuItem menuItempSave = new JMenuItem("Save");
+        menuItempSave.setActionCommand("Save");
+        menuItempSave.addActionListener(actionHandler);
+        this.add(menuItempSave);
 
-        JMenuItem open = new JMenuItem("Open");
-        open.setActionCommand("Open");
-        open.addActionListener(actionHandler);
-
-        this.add(save);
-        this.add(open);
+        JMenuItem menuItemOpen = new JMenuItem("Open");
+        menuItemOpen.setActionCommand("Open");
+        menuItemOpen.addActionListener(actionHandler);
+        this.add(menuItemOpen);
     }
 
     private class ActionHandler implements ActionListener {
@@ -36,10 +35,10 @@ public class GFileMenu extends JMenu {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getActionCommand().equals("Open")) {
-                drawing
+                drawingPanel.open();
 
             } else if (e.getActionCommand().equals("Save")) {
-
+                drawingPanel.save();
             }
 
         }

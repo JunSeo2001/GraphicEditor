@@ -53,30 +53,42 @@ public class GDrawingPanel extends JPanel {
 
 
     //method
-    public void save(File file) {
-        System.out.println("save");
-        BufferedImage image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
-        Graphics2D g = image.createGraphics();
-        paint(g); // 현재 패널에 그려진 그림을 이미지로 그림
+//    public void save(File file) {
+//        System.out.println("save");
+//        BufferedImage image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
+//        Graphics2D g = image.createGraphics();
+//        paint(g); // 현재 패널에 그려진 그림을 이미지로 그림
+//
+//        try {
+//            ImageIO.write(image, "PNG", file); // 이미지를 PNG 형식으로 파일에 저장
+//            System.out.println("파일이 저장되었습니다: " + file.getAbsolutePath());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            System.out.println("파일을 저장하는 도중 오류가 발생했습니다.");
+//        }
+//    }
 
-        try {
-            ImageIO.write(image, "PNG", file); // 이미지를 PNG 형식으로 파일에 저장
-            System.out.println("파일이 저장되었습니다: " + file.getAbsolutePath());
-        } catch (IOException e) {
+    public void open() {
+        File file = new File("output");
+        try (ObjectInputStream objectInputStream = new ObjectInputStream(
+                new BufferedInputStream(
+                        new FileInputStream(file)))) {
+            // 올바르게 타입 캐스팅
+            this.shapes = (Vector<GShapeTool>) objectInputStream.readObject();
+        } catch (IOException | ClassNotFoundException e) { // IOException과 ClassNotFoundException 모두 처리
             e.printStackTrace();
-            System.out.println("파일을 저장하는 도중 오류가 발생했습니다.");
         }
 
-
     }
-
-    void save2() {
+    public void save() {
         try {
             File file = new File("output");
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(file)));
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(
+                    new BufferedOutputStream(
+                            new FileOutputStream(file)));
             objectOutputStream.writeObject(this.shapes);
             objectOutputStream.close();
-        } catch (IOException) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

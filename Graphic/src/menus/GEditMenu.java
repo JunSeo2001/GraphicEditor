@@ -7,7 +7,8 @@ import javax.swing.*;
 public class GEditMenu extends JMenu {
     private static final long serialVersionUID = 1L;
 
-    public GEditMenu(GMainFrame.MenuActionHandler menuActionHandler){
+    public GEditMenu(String s){
+        super(s);
 
         JMenuItem cutMenuItem = new JMenuItem("Cut");
         JMenuItem copyMenuItem = new JMenuItem("Copy");

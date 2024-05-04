@@ -13,23 +13,17 @@ public class GMenuBar extends JMenuBar {
 
     private GDrawingPanel drawingPanel;
 
-    public GMenuBar(GMainFrame.MenuActionHandler menuActionHandler){
-//        this.fileMenu = new GFileMenu(menuActionHandler);
-//        this.editMenu = new GEditMenu(menuActionHandler);
-//
-//        this.add(this.fileMenu);
-//        this.add(this.editMenu);
+    public GMenuBar(){
+        this.fileMenu = new GFileMenu("file");
+        this.editMenu = new GEditMenu("edit");
 
-        JMenuItem save = new JMenuItem("Save");
-        JMenuItem open = new JMenuItem("Open");
-        save.addActionListener(menuActionHandler);
-        add(save);
-        add(open);
+        this.add(this.fileMenu);
+        this.add(this.editMenu);
     }
 
-    public void associate() {
+    public void associate(GDrawingPanel drawingPanel) {
         this.drawingPanel = drawingPanel;
-        this.fileMenu.assoicate(drawingPanel);
+        this.fileMenu.associate(drawingPanel);
     }
 
     public void initialize() {
