@@ -1,93 +1,53 @@
 package frame;
-
-import global.Constants.EShapeButtons;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JFrame;
+
+import global.Constants;
+import global.Constants.EShapeButtons;
 
 public class GMainFrame extends JFrame {
     private static final long serialVersionUID = 1L;
 
-    //attributes(속성 값이 추가된 것)
+    // attributes
 
-
-    //components(부품 추가)
+    // components
     private GMenuBar menuBar;
     private GShapeToolBar shapeToolBar;
     private GDrawingPanel drawingPanel;
 
-//    private GToolBar toolBar;
-
-    //constructor
-    public GMainFrame(){
+    // constructor
+    public GMainFrame() {
         // set attributes
-        this.setSize(700,800);
+
+        this.setSize(Constants.GMainFrame.WIDTH, Constants.GMainFrame.HEIGHT);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // create components
         LayoutManager layoutManager = new BorderLayout();
-
         this.setLayout(layoutManager);
 
-
-//        MenuActionHandler menuActionHandler = new MenuActionHandler();
         this.menuBar = new GMenuBar();
         this.setJMenuBar(this.menuBar);
 
-        ShapeActionHandler shapeActionHandler = new ShapeActionHandler();
-        this.shapeToolBar = new GShapeToolBar(shapeActionHandler);
+        this.shapeToolBar = new GShapeToolBar();
         this.add(shapeToolBar, BorderLayout.NORTH);
 
-
         this.drawingPanel = new GDrawingPanel();
-        this.add(drawingPanel,BorderLayout.CENTER);
+        this.add(drawingPanel, BorderLayout.CENTER);
 
-        this.initialize();
-
-        //associate
+        // associate
         this.menuBar.associate(this.drawingPanel);
+        this.shapeToolBar.associate(this.drawingPanel);
     }
 
+    // methods
     public void initialize() {
         this.menuBar.initialize();
-        this.shapeToolBar.initialize();
-        this.drawingPanel.initialize();
+        this.shapeToolBar.intitialize();
+        this.drawingPanel.intitialize();
     }
-
-
-
-    public class ShapeActionHandler implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            EShapeButtons eShapeButtons = EShapeButtons.valueOf(e.getActionCommand());
-            drawingPanel.setShapeTool(eShapeButtons.getShapeTool());
-        }
-    }
-
-//    public class MenuActionHandler implements ActionListener {
-//        @Override
-//        public void actionPerformed(ActionEvent e){
-//            JFileChooser fileChooser = new JFileChooser();
-//            fileChooser.setDialogTitle("Save As");
-//
-//            FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG Images", "png");
-//            fileChooser.setFileFilter(filter);
-//
-//            int userSelection = fileChooser.showSaveDialog(null);
-//
-//            if (userSelection == JFileChooser.APPROVE_OPTION) {
-//                File fileToSave = fileChooser.getSelectedFile();
-//                String fileName = fileToSave.getAbsolutePath();
-//                if (!fileName.toLowerCase().endsWith(".png")) {
-//                    // 파일 이름에 .png 확장자가 없는 경우 확장자 추가
-//                    fileToSave = new File(fileName + ".png");
-//                }
-//                drawingPanel.save(fileToSave);
-//            }
-//        }
-//    }
-
 }

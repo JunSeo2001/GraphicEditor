@@ -1,44 +1,50 @@
 package frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.ButtonGroup;
+import javax.swing.JRadioButton;
+import javax.swing.JToolBar;
 
 import global.Constants.EShapeButtons;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
-import java.util.Objects;
-
 public class GShapeToolBar extends JToolBar {
     private static final long serialVersionUID = 1L;
+    private GDrawingPanel drawingPanel;
 
-    public GShapeToolBar(GMainFrame.ShapeActionHandler shapeActionHandler) {
-//        this.setLayout(new FlowLayout());
-        this.setLayout(new FlowLayout());
+    public GShapeToolBar() {
         ButtonGroup buttonGroup = new ButtonGroup();
+        ShapeActionHandler shapeActionHandler = new ShapeActionHandler();
 
-        for(EShapeButtons eShapeButtons: EShapeButtons.values()){
-            //이미지 삽입
-            ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/image/"+eShapeButtons.getText()+".png")));
-            Image image = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-            icon = new ImageIcon(image);
-            JLabel label  = new JLabel(icon);
-
-            //버튼 생성
+        for (EShapeButtons eShapeButtons: EShapeButtons.values()) {
             JRadioButton button = new JRadioButton(eShapeButtons.getText());
             button.addActionListener(shapeActionHandler);
             button.setActionCommand(eShapeButtons.toString());
-            add(label);
             add(button);
             buttonGroup.add(button);
         }
-
     }
 
-
-    public void initialize() {
-        JToggleButton defaultButton = (JRadioButton) (this.getComponent(EShapeButtons.eOval.ordinal()));
+    public void intitialize() {
+        JRadioButton defaultButton
+                = (JRadioButton)(this.getComponent(EShapeButtons.eRectangle.ordinal()));
         defaultButton.doClick();
-        //초기 값 설정
     }
 
+    public void associate(GDrawingPanel drawingPanel) {
+        this.drawingPanel = drawingPanel;
+    }
+
+    private void setShapeTool(EShapeButtons eShapeButton) {
+        this.drawingPanel.setShapeTool(eShapeButton.getShapeTool());
+    }
+
+    private class ShapeActionHandler implements ActionListener {;
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            EShapeButtons eShapeButton = EShapeButtons.valueOf(e.getActionCommand());
+            setShapeTool(eShapeButton);
+        }
+
+    }
 }

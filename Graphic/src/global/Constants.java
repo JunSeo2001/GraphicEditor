@@ -1,30 +1,44 @@
 package global;
 
-import shapeTools.*;
+import shapeTools.GLine;
+import shapeTools.GOval;
+import shapeTools.GPolygon;
+import shapeTools.GRectangle;
+import shapeTools.GShape;
 
-
-public class Constants{
-    public enum EShapeButtons{
-        eRectangle("Rectangle", new GRectangle()),
-        eOval("Oval", new GOval()),
-        eLine("Line", new GLine()),
-        ePolygon("Polygon", new GPolygon());
+public class Constants {
+    public enum EShapeButtons {
+        eRectangle("rectangle", new GRectangle()),
+        eOval("oval", new GOval()),
+        eLine("line", new GLine()),
+        ePolygon("polygon", new GPolygon());
 
         private String text;
-        private GShapeTool shapeTool;
-
-        EShapeButtons(String text, GShapeTool shapeTool){
+        private GShape shapeTool;
+        private EShapeButtons(String text, GShape shapeTool) {
             this.text = text;
             this.shapeTool = shapeTool;
         }
-        public String getText(){
-            return this.text;
-        }
-        public GShapeTool getShapeTool(){
-            return this.shapeTool;
-        }
+        public String getText() { return this.text; }
+        public GShape getShapeTool() { return this.shapeTool; }
     }
-
     public final static int NUM_POINTS = 20;
 
+    public static class GMainFrame {
+        public final static int WIDTH = 400;
+        public final static int HEIGHT = 600;
+    }
+
+    public static class GMenuBar {
+        public enum EMemu {
+            eFile("파일"),
+            eEdit("편집");
+
+            private String text;
+            private EMemu(String text) {
+                this.text = text;
+            }
+            public String getText() { return this.text; }
+        }
+    }
 }
