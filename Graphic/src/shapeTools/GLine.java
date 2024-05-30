@@ -27,10 +27,10 @@ public class GLine extends GShape {
     }
 
 
-    @Override
-    public void updateShape() {
-        RectangularShape shape = (RectangularShape) this.shape;
-        shape.setFrame(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x2 - x1), Math.abs(y2 - y1));
-        updateAnchors();
-    }
+//    @Override
+//    public void updateShape() {
+//        RectangularShape shape = (RectangularShape) this.shape;
+//        shape.setFrame(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x2 - x1), Math.abs(y2 - y1));
+//        updateAnchors();
+//    }
 }

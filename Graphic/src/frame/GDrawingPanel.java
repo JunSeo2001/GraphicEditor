@@ -1,6 +1,5 @@
 package frame;
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -19,7 +18,6 @@ import javax.swing.JRadioButton;
 
 import shapeTools.GAnchor;
 import shapeTools.GShape;
-import shapeTools.GShape.EAnchor;
 import shapeTools.GShape.EDrawingStyle;
 
 
@@ -75,9 +73,9 @@ public class GDrawingPanel extends JPanel {
     public void paint(Graphics graphics) {
         for (GShape shape: shapes) {
             shape.draw(graphics);
-            if (shape == currentShape) {
-                shape.updateAnchors();
-            }
+//            if (shape == currentShape) {
+//                shape.updateAnchors();
+//            }
         }
     }
 
@@ -95,6 +93,7 @@ public class GDrawingPanel extends JPanel {
     private void stopDrawing(int x, int y) {
 //		currentShape.addPoint(x, y);
         shapes.add(currentShape);
+        currentShape.setSelected(getGraphics());
     }
 
     private GShape onShape(int x, int y) {
@@ -105,6 +104,15 @@ public class GDrawingPanel extends JPanel {
             }
         }
         return null;
+    }
+
+    private void changeCursor(int x, int y) {
+        GShape shape = this.onShape(x, y);
+        if (shape == null) {
+            this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        } else {
+            this.setCursor(shape.getCursor());
+        }
     }
 
     private class MouseEventHandler implements MouseListener, MouseMotionListener {
@@ -139,6 +147,9 @@ public class GDrawingPanel extends JPanel {
 
         @Override
         public void mouseMoved(MouseEvent e) {
+            if (eDrawingState == EDrawingState.eIdle) {
+                changeCursor(e.getX(), e.getY());
+            }
             if (eDrawingState == EDrawingState.eNPState) {
                 keepDrawing(e.getX(), e.getY());
                 eDrawingState = EDrawingState.eNPState;
@@ -155,24 +166,33 @@ public class GDrawingPanel extends JPanel {
                         eDrawingState = EDrawingState.e2PState;
                     }
                 } else {
-                    currentShape.startMove(getGraphics(), e.getX(), e.getY());
+                    if (currentShape.getSelectedAnchor() == GShape.EAnchors.eMM) {
+                        currentShape.startMove(getGraphics(), e.getX(), e.getY());
+                    } else if (currentShape.getSelectedAnchor() == GShape.EAnchors.eRR) {
+
+                    } else {
+                        currentShape.startResize(getGraphics(), e.getX(), e.getY());
+
+                    }
                     eDrawingState = EDrawingState.eTransformation;
                 }
-                currentShape.updateAnchors();  // 앵커 업데이트
-                currentShape.drawAnchors(getGraphics());
+//                currentShape.updateAnchors();  // 앵커 업데이트
+//                currentShape.drawAnchors(getGraphics());
             }
         }
         @Override
         public void mouseDragged(MouseEvent e) {
             if (eDrawingState == EDrawingState.e2PState) {
                 keepDrawing(e.getX(), e.getY());
-            } else if (eDrawingState == EDrawingState.eTransformation && currentAnchor != null) {
-                currentAnchor.setLocation(e.getPoint());
-                currentShape.updateShape();
-                currentShape.draw(getGraphics());
-                currentShape.drawAnchors(getGraphics());
-            } else if (eDrawingState == EDrawingState.eTransformation) {
-                currentShape.keepMove(getGraphics(), e.getX(), e.getY());
+            }else if (eDrawingState == EDrawingState.eTransformation) {
+                if (currentShape.getSelectedAnchor() == GShape.EAnchors.eMM) {
+                    currentShape.keepMove(getGraphics(), e.getX(), e.getY());
+                } else if (currentShape.getSelectedAnchor() == GShape.EAnchors.eRR) {
+
+                } else {
+                    currentShape.keepResize(getGraphics(), e.getX(), e.getY());
+
+                }
             }
         }
         @Override
@@ -181,11 +201,13 @@ public class GDrawingPanel extends JPanel {
                 stopDrawing(e.getX(), e.getY());
                 eDrawingState = EDrawingState.eIdle;
             } else if (eDrawingState == EDrawingState.eTransformation) {
-                if (currentAnchor != null) {
-                    currentShape.updateShape();
-                    currentAnchor = null;
-                } else {
+                if (currentShape.getSelectedAnchor() == GShape.EAnchors.eMM) {
                     currentShape.stopMove(getGraphics(), e.getX(), e.getY());
+                } else if (currentShape.getSelectedAnchor() == GShape.EAnchors.eRR) {
+
+                } else {
+                    currentShape.stopResize(getGraphics(), e.getX(), e.getY());
+
                 }
                 eDrawingState = EDrawingState.eIdle;
             }
