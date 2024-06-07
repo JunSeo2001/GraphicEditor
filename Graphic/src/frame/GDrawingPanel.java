@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -48,7 +49,7 @@ public class GDrawingPanel extends JPanel {
     // constructors
     public GDrawingPanel() {
         // attributes
-        this.setBackground(Color.gray);
+        this.setBackground(Color.white);
         this.eDrawingState = EDrawingState.eIdle;
 //		this.eTransformation = null;
         // components
@@ -79,13 +80,28 @@ public class GDrawingPanel extends JPanel {
         }
     }
 
+    private BufferedImage bufferedImage;
+    private Graphics2D graphics;
+
     private void startDrawing(int x, int y) {
+        BufferedImage bufferedImage = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
+
+        Graphics2D graphics = (Graphics2D) bufferedImage.getGraphics();
+        graphics.setColor(this.getForeground());
+        graphics.setBackground(this.getBackground());
+        graphics.clearRect(0, 0, this.getWidth(), this.getHeight());
+
         currentShape = shapeTool.clone();
         currentShape.setOrigin(x, y);
+
     }
     private void keepDrawing(int x, int y) {
         currentShape.movePoint(x, y);
         currentShape.drag(getGraphics());
+
+//        graphics.clearRect(0, 0, this.getWidth(), this.getHeight());
+//        currentShape.drag(graphics);
+//        getGraphics().drawImage(bufferedImage, 0, 0, this.getWidth(), this.getHeight(), this);
     }
     private void ContinueDrawing(int x, int y) {
         currentShape.addPoint(x, y);
@@ -135,7 +151,7 @@ public class GDrawingPanel extends JPanel {
             } else if (eDrawingState == EDrawingState.eNPState) {
                 ContinueDrawing(e.getX(), e.getY());
                 eDrawingState = EDrawingState.eNPState;
-            }
+            }e
         }
         private void mouse2Clicked(MouseEvent e) {
             if (eDrawingState == EDrawingState.eNPState) {
